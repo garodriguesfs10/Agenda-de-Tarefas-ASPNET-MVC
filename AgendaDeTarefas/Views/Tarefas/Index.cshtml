@@ -1,0 +1,82 @@
+﻿@model IEnumerable<AgendaDeTarefas.Models.DatasViewModel>
+    @{
+        ViewData["Title"] = "Tarefas Cadastradas";
+    }
+    @if (Model.Count() == 0)
+    {
+        <p>Erro</p>
+    }
+    else
+    {
+
+        @foreach (var item in Model)
+        {
+            <div class="accordion" id="painelTarefas">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-10">
+                                <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#@item.Identificadores">
+                                    @item.Datas
+                                </button>
+                            </div>
+                            <div class="col-2">
+                                <a asp-action="CriarTarefa" asp-route-dataTarefa="@item.Datas" class="btn btn-sm btn-dark">Nova tarefa</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="@item.Identificadores" class="collapse show" data-parent="#painelTarefas">
+                        <div class="card-body">
+                            @await Component.InvokeAsync("ListaTarefas", item.Datas)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+
+<div class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmar exclusão</h5>
+            </div>
+            <div class="modal-body">
+                <p>Prosseguir com a exclusão da tarefa <text class="nomeTarefa"></text>?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btnFechar" data-bs-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-danger btnExcluir">Deletar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{ 
+<script>
+
+
+    function ConfirmarExclusao(id, nome) {
+        $('.nomeTarefa').text(nome);
+        $('.modal').modal();
+        $('.btnExcluir').on('click', function () {
+            $.ajax({
+                url: 'Tarefas/DeletarTarefa',
+                method: 'POST',
+                data: {tarefaId:id},
+                success: function (data) {
+                    $('.modal').modal('hide');
+                    alert('Tarefa excluida');
+                    location.reload(true);
+                }
+            })   
+        })
+        $('.btnFechar').on('click', function () {
+            id = null;
+            nome = null;
+            $('.modal').modal('hide');
+        })
+    }
+</script>
+
+}

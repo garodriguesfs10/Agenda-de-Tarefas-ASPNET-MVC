@@ -1,0 +1,42 @@
+﻿@model IEnumerable<AgendaDeTarefas.Models.Tarefa>
+
+@{
+    Layout = null;
+}
+<style>
+    .fecharbtn:hover {
+        color: white !important;        
+    }
+    .fecharbtn{
+        color:red !important;
+    }
+</style>
+
+<div class="border border-light shadow rounded-lg p-3">
+    @if (Model.Count() > 0)
+    {
+        <ul class="list-group">
+            @foreach (var item in Model)
+            {
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-2">
+                            <span class="badge badge-info">@item.Horario</span>
+                        </div>
+                        <div class="col-8">
+                            <span>@item.Nome</span>
+                        </div>
+                        <div class="col-2">
+                            <a asp-action="AtualizarTarefa" asp-route-tarefaId="@item.TarefaId" class="btn btn-sm btn-outline-primary">Editar</a>
+                            <a class="btn btn-sm btn-outline-danger fecharbtn" onclick="ConfirmarExclusao(@item.TarefaId,'@item.Nome')">Deletar</a>
+                        </div>
+                    </div>
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p class="alert alert-warning">Sem tarefas cadastradas ainda</p>
+    }
+</div>
