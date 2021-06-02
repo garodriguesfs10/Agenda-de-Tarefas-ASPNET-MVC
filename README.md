@@ -6,5 +6,5 @@ Mais algumas tecnologias usadas:
  - Entity Framework
  - Razor Pages
 
-Sistema:
+Sistema funcionando:
 https://user-images.githubusercontent.com/44370579/120416144-09cb5100-c333-11eb-9b56-991b75ccbe31.mp4
